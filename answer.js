@@ -84,7 +84,33 @@ function where(list, properties) {
 	return arr;
 }
 
+function findWhere(list, properties) {
+	for (var i = 0; i < list.length; i++) {
+		var flag = true;
+		for (var key in properties) {
+			if (list[i][key] !== properties[key]) {
+				flag = false;
+			}
+		}
+		if (flag) {
+			return list[i]
+		}
+	}
+	return undefined
+}
+
+function reject(list, predicate) {
+	return filter(list, function(val){
+		return !predicate(val)
+	})
+}
+
+function every(list, predicate) {
+	return find(list, function(val){
+		return Boolean(predicate(val)) === false
+	})
+} 
+
 console.log(
-	where([{title: "Cymbeline", author: "Shakespeare"},
-    {title: "The Tempest", author: "Shakespeare", year: 1612}], {author: "Shakespeare", year: 1611})
+	every([true, 1, null, 'yes'], Boolean)
 	)
