@@ -41,8 +41,50 @@ function reduce(list, cb, memo) {
 	
 }
 
-console.log(
-	reduce([1,2,3], function(a, b) {
-		return  a + b;
+function reduceRight(list, iteratee, memo) {
+	if (memo !== undefined) {
+		for (var i = list.length - 1; i >= 0; i--) {
+			memo = iteratee(memo, list[i])
+		}
+		return memo;
+	} else {
+		memo = list[list.length - 1];
+		for (var i = list.length - 2; i >= 0; i--) {
+			memo = iteratee(memo, list[i])
+		}
+		return memo
+	}
+}
+
+function find(list, predicate) {
+	try {	
+	each(list, function(element, index) {
+		if (predicate(element)) {
+			throw element
+		}
 	})
+	} catch(e) {
+		return e
+	}
+}
+
+function where(list, properties) {
+	var arr = [];
+	each(list, function(obj) {
+		var flag = true;
+		for (var key in properties) {
+			if (obj[key] !== properties[key]) {
+				flag = false;
+			}
+		}
+		if (flag) {
+			arr.push(obj)
+		}
+	})
+	return arr;
+}
+
+console.log(
+	where([{title: "Cymbeline", author: "Shakespeare"},
+    {title: "The Tempest", author: "Shakespeare", year: 1612}], {author: "Shakespeare", year: 1611})
 	)
